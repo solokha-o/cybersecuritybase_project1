@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+<style>
+{% block style %}
+  .todo {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .todo a:last-child {
+    margin-left: 0.5rem;
+  }
+{% endblock %}
+</style>
+
+{% block title %}
+{{ user.get_username }}'s {% if list_completed_todos %}completed{% endif %} todos
+{% endblock %}
+
+{% block content %}
+<h1>Todos</h1>
+
+<form method="GET">
+  <div class="grid">
+    <input id="search" name="search" placeholder="Search todos" />
+    <button type="submit">Search</button>
+  </div>
+</form>
+
+{% if todos|length %}
+<ul>
+  {% for todo in todos %}
+  <li>
+    <div class="todo">
+    <a href="/todos/{{todo.id}}/">{{ todo.title }}</a>
+    <div>
+      {% if list_completed_todos %}
+      <a href="/todos/{{todo.id}}/set-done/?done=False">
+      {% else %}
+      <a href="/todos/{{todo.id}}/set-done/">
+      {% endif %}
+        {% if not list_completed_todos %}
+        Mark done
+        {% else %}
+        Mark undone
+        {% endif %}
+      </a>
+      <a href="/todos/{{todo.id}}/delete/">Delete</a>
+    </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No todos found.</p>
+{% endif %}
+
+<h2>Add new todo</h2>
+<form action="todos" method="POST">
+  {% csrf_token %}
+  <label for="title">Title</label>
+  <input id="title" name="title" />
+  <label for="description">Description</label>
+  <textarea id="description" name="description"></textarea>
+  <button type="submit">Add</button>
+</form>
+{% endblock %}
