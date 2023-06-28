@@ -1,17 +1,11 @@
-# cyber-security-project-1
-
-A TODO web app
+# A TODO web app
 
 ## Setup
 
 As prerequisities python 3 and django should be installed. The course's [installation instructions](https://cybersecuritybase.mooc.fi/installation-guide) should be enough to get everything needed installed.
 
 ### Installing and running the project
-
-
-1. Clone the repository with `git clone https://github.com/joelkur/cyber-security-project-1.git`
-
-
+1. Clone the repository with `https://github.com/solokha-o/cybersecuritybase_project1.git`
 2. In the project root folder, run migrations with `python3 manage.py migrate`
 3. Create test data with `python3 manage.py initdb`
 4. Run the server with `python3 manage.py runserver`
@@ -28,8 +22,8 @@ The `initdb` command creates the following users:
 
 ### Flaw 1: [Cryptographic Failure]
 Links to the flaw sources:
-- [/todoapp/models.py#L9](/todoapp/models.py#L9)
-- [/todoapp/models.py#L13](/todoapp/models.py#L13)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/models.py#L9 (Line 9 in models.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/models.py#L14 (Line 14 in models.py)
 
 Cryptographic failure refers to situations where a cryptographic system or algorithm fails to provide the intended level of security. Cryptography is the science of secure communication and involves the use of mathematical algorithms to encode and protect sensitive information.
 
@@ -41,22 +35,22 @@ https://github.com/django/django/blob/main/django/contrib/auth/hashers.py#L72
 
 ### Flaw 2: [Broken Access Control]
 Links to the flaw sources:
-- [/todoapp/views.py#L8](/todoapp/views.py#L8)
-- [/todoapp/views.py#L19](/todoapp/views.py#L19)
-- [/todoapp/views.py#L31](/todoapp/views.py#L31)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L8 (Line 8 in views.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L19 (Line 19 in views.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L31 (Line 31 in views.py)
 
 Broken Access Control refers to a security vulnerability that occurs when there is inadequate or improper enforcement of access restrictions in a web application or system. Access control mechanisms are designed to ensure that users can only access the resources and perform actions they are authorized to do. However, if these access controls are not correctly implemented, attackers can exploit the weaknesses to gain unauthorized access to sensitive information or perform unauthorized actions. To reproduce this, with the initial test data log in with e.g. user `piter` and go to link http://localhost:8000/todos/10/. This should open a view that displays todo belonging to user `alex` - with the ability to mark the todo as done or delete it.
 
 This can be fixed by implementing a check that the requesting user matches the owner of the target resource, and if a mismatch occurs the access should be prevented. Each of the views containing the flaw has commented out code for a possible fix.
 
 Links to the fixes:
-- [/todoapp/views.py#L11](/todoapp/views.py#L11)
-- [/todoapp/views.py#L22](/todoapp/views.py#L22)
-- [/todoapp/views.py#L34](/todoapp/views.py#L34)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L11 (Line 11 in views.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L22 (Line 22 in views.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L34 (Line 34 in views.py)
 
 ### Flaw 3: [SQL injection]
 Links to the flaw sources:
-- [/todoapp/views.py#L55](/todoapp/views.py#L55)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L55 (Line 55 in views.py)
 
 SQL injection is a security vulnerability that occurs when an attacker is able to manipulate SQL queries executed by a web application's database. It happens when the application fails to properly validate or sanitize user input that is used to construct SQL queries, allowing an attacker to insert malicious SQL code.
 Here's an example of a simple SQL injection attack:
@@ -69,11 +63,11 @@ To reproduce the SQL injection in the application, you can type e.g. `%' UNION S
 One fix for this flaw is to use Django's built-in object relational mapper for building, executing and reading the database query. This suggested fix is commented out in the code after the flawed line. Another way of fixing the issue via raw SQL would be by using prepared statements. Prepared statements builds the query beforehand without executing it, leaving placeholders for parameters. Later the compiled query can be executed with different input as parameters, without the worry of the input affecting the original query.
 
 Links to the fixes:
-- [/todoapp/views.py#L58](/todoapp/views.py#L58)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/todoapp/views.py#L58 (Line 58 in views.py)
 
 ### Flaw 4: [Cross-site scripting (XSS)]
 Links to the flaw sources:
-- [/project/settings.py#73](/project/settings.py#L73)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/settings.py#L73 (Line 73 in settings.py)
 
 Cross-site scripting (XSS) is a type of web security vulnerability that allows attackers to inject malicious scripts or code into web pages viewed by other users. It occurs when a web application does not properly validate or sanitize user input before displaying it on a website.
 
@@ -89,12 +83,12 @@ One way of reproducing this scenario can be achieved with the following steps:
 In this particular case, the root of the issue comes from the project settings, where templates are configured to not automatically escape user input. Removing this line enables the automatic input escaping functionality and thus fixing XSS issues.
 
 Links to the fixes:
-- [/project/settings.py#73](/project/settings.py#L73)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/settings.py#L73 (Line 73 in settings.py)
 
 ### Flaw 5: [Identification and Authentication Failures]
 Links to the flaw sources:
-- [/project/session.py#L5](/project/session.py#L5)
-- [/project/settings.py#L34](/project/settings.py#L34)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/session.py#L5 (Line 5 in session.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/settings.py#L34 (Line 34 in settings.py)
 
 Identification and authentication failures refer to security vulnerabilities or weaknesses in the processes of verifying and validating the identities of users or entities accessing a system or network. These failures can occur in various contexts, such as computer systems, networks, online services, or physical access control systems.
 
@@ -105,5 +99,5 @@ The session key should be fixed to be unpredictable, as an example a securely ge
 To fix the session cookie being accessible with javascript, the session cookie should be set as HTTP only.
 
 Links to the fixes:
-- [/project/settings.py#L30](/project/settings.py#L30)
-- [/project/settings.py#L33](/project/settings.py#L33)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/settings.py#L30 (Line 30 in settings.py)
+- https://github.com/solokha-o/cybersecuritybase_project1/blob/e75daa9ec631cd63f960b7be342ecd6bd0d4dab1/project/settings.py#L33 (Line 33 in settings.py)
